@@ -18,7 +18,7 @@ class TodoUseCase {
                 return data.documents.map {
                     Todo(
                         id = it.id,
-                        tittle = it.getString("title").toString(),
+                        title = it.getString("title").toString(),
                         description = it.getString("description").toString()
                     )
                 }
@@ -29,5 +29,4 @@ class TodoUseCase {
 
         }
     }
-}
 }

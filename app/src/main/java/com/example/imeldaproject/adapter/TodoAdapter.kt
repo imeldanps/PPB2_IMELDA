@@ -1,21 +1,22 @@
 package com.example.imeldaproject.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imeldaproject.databinding.ItemTodoBinding
 import com.example.imeldaproject.entity.Todo
 
-class TodoAdapter(
+class TodoAdapter (
     private val dataset: MutableList<Todo>
-) : RecyclerView.Adapter<TodoAdapter.CustomViewHolder>() {
+) : RecyclerView.Adapter<TodoAdapter.CustomViewHolder>(){
 
-    inner class CustomViewHolder(private val binding: ItemTodoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class CustomViewHolder(val view: ItemTodoBinding)
+        : RecyclerView.ViewHolder(view.root) {
 
         fun bindData(item: Todo) {
-            binding.title.text = item.tittle    // ✅ Perbaikan: item.tittle -> item.title
-            binding.description.text = item.description
+            view.title.text = item.title
+            view.description.text= item.description
         }
     }
 
@@ -28,7 +29,12 @@ class TodoAdapter(
             parent,
             false
         )
+
         return CustomViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int {
+        return dataset.size
     }
 
     override fun onBindViewHolder(
@@ -39,12 +45,10 @@ class TodoAdapter(
         holder.bindData(data)
     }
 
-    override fun getItemCount(): Int = dataset.size
-
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: List<Todo>) {
         dataset.clear()
         dataset.addAll(newData)
         notifyDataSetChanged()
     }
 }
-

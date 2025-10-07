@@ -1,11 +1,11 @@
 package com.example.imeldaproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.browser.trusted.Token
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.CredentialManager
@@ -19,9 +19,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import com.google.firebase.auth.oAuthCredential
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -104,5 +102,19 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Login gagal:", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (auth.currentUser != null) {
+            toTodoPage()
+        }
+
+    }
+
+    private fun toTodoPage() {
+        val intent = Intent(this, Textactivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
