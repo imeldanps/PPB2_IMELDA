@@ -8,8 +8,14 @@ import com.example.imeldaproject.databinding.ItemTodoBinding
 import com.example.imeldaproject.entity.Todo
 
 class TodoAdapter (
-    private val dataset: MutableList<Todo>
+    private val dataset: MutableList<Todo>,
+    private val events: TodoItemEvents,
 ) : RecyclerView.Adapter<TodoAdapter.CustomViewHolder>(){
+
+    interface TodoItemEvents{
+        fun onDelete(todo: Todo)
+        fun onEdit(todo: Todo)
+    }
 
     inner class CustomViewHolder(val view: ItemTodoBinding)
         : RecyclerView.ViewHolder(view.root) {
@@ -17,6 +23,14 @@ class TodoAdapter (
         fun bindData(item: Todo) {
             view.title.text = item.title
             view.description.text= item.description
+
+            view.root.setOnLongClickListener() {
+                events.onDelete(todo = item)
+                true
+            }
+            view.root.setOnClickListener {
+                events.onEdit(item)
+            }
         }
     }
 
